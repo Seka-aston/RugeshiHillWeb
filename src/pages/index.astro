@@ -1,0 +1,316 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { getBookPage, urlFor } from '../lib/sanity'
+
+const page = await getBookPage()
+
+const bookTitle = page?.bookTitle || 'Rugeshi Hill, Where Humanity Was Buried'
+const bookSubtitle = page?.bookSubtitle || 'A Memoir of Survival, Memory, and the Unburied Truth'
+const authorName = page?.authorName || 'Apollinaire Munyaneza'
+const authorTitle = page?.authorTitle || 'Genocide Survivor · Author · Witness'
+const witnessHeadline = page?.witnessHeadline || 'A Witness to History'
+const witnessLeft = page?.witnessTextLeft || 'On the hills of Rugeshi, amid the beauty of Rwanda\'s landscape, one of humanity\'s darkest chapters unfolded. Apollinaire Munyaneza was there — a child forced to witness the impossible, to survive the unsurvivable.'
+const witnessRight = page?.witnessTextRight || 'This memoir is not only a record of atrocity. It is a testament to the resilience of memory, the duty of witness, and the long, unfinished work of healing that follows catastrophe.'
+const pullQuote = page?.pullQuote || 'The hill did not forget. Neither could I. To speak is not to wound again — it is to refuse that the dead were never there.'
+const pullQuoteAuthor = page?.pullQuoteAuthor || '— Apollinaire Munyaneza'
+const ctaHeadline = page?.ctaHeadline || 'Read This Important Memoir'
+const ctaBody = page?.ctaBody || 'Rugeshi Hill is essential reading for anyone committed to understanding the 1994 Genocide against the Tutsi — and to honouring those who did not survive it.'
+const ctaBuyLink = page?.ctaBuyLink || '#'
+const ctaLearnLink = page?.ctaLearnLink || '#'
+const themes = page?.themes || [
+  { title: 'Loss & Memory', description: 'The devastating impact of the Genocide on one family — both parents, a brother, five sisters, and hundreds of extended family members on Rugeshi Hill.' },
+  { title: 'Truth & Evidence', description: 'Evidence that the Genocide was not a spontaneous eruption of anger, but a meticulously planned, state-orchestrated atrocity that began years before 1994.' },
+  { title: 'Resilience & Purpose', description: 'How a survivor found the strength to rebuild his life, honouring those who perished by living with purpose and rising beyond the ordinary.' },
+]
+
+const bookCoverUrl = page?.bookCover ? urlFor(page.bookCover) : '/images/book-cover.png'
+const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto) : '/images/author-photo.png'
+---
+
+<Layout title={bookTitle}>
+
+  <!-- NAV -->
+  <nav class="w-full bg-[#1A1208] px-20 py-5 flex items-center justify-between fixed top-0 z-50">
+    <span class="font-['Cormorant_Garamond'] text-[#C4A97D] text-xl font-semibold tracking-wide">Rugeshi Hill</span>
+    <div class="flex items-center gap-12">
+      <a href="#witness" class="font-['Inter'] text-[#F5F0E8] text-sm hover:text-[#C4A97D] transition-colors">The Story</a>
+      <a href="#author" class="font-['Inter'] text-[#F5F0E8] text-sm hover:text-[#C4A97D] transition-colors">The Author</a>
+      <a href="#themes" class="font-['Inter'] text-[#F5F0E8] text-sm hover:text-[#C4A97D] transition-colors">Key Themes</a>
+      <a href={ctaBuyLink} class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-sm font-semibold px-6 py-2.5 hover:bg-[#8B7355] hover:text-white transition-colors">Get the Book</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+<section class="w-full h-[700px] pt-[76px] relative overflow-hidden flex items-center">
+  <!-- Background landscape -->
+  <div class="absolute inset-0">
+    <img src="/images/rugeshi-landscape.png" alt="" class="w-full h-full object-cover object-center" />
+    <div class="absolute inset-0 bg-[#1A1208]/65"></div>
+  </div>
+  <!-- Content -->
+  <div class="relative z-20 w-full max-w-[1440px] mx-auto px-20 flex items-center justify-between gap-10">
+    <div class="max-w-[580px]">
+      <p class="font-['Inter'] text-[#C4A97D] text-sm font-medium tracking-[0.15em] uppercase mb-6">A Memoir · 1994 Genocide Against the Tutsi</p>
+      <h1 class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-[56px] leading-[1.1] font-semibold mb-6">{bookTitle}</h1>
+      <div class="w-16 h-[2px] bg-[#C4A97D] mb-6"></div>
+      <p class="font-['Inter'] text-[#D4C9B8] text-lg leading-relaxed mb-10">{bookSubtitle}</p>
+      <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-xl italic">By {authorName}</p>
+    </div>
+  <div 
+  id="book-zoom"
+  class="flex-shrink-0 w-[600px] h-[500px] shadow-2xl relative cursor-zoom-in overflow-hidden"
+>
+  <img 
+    id="book-cover-img"
+    src={bookCoverUrl} 
+    alt={bookTitle} 
+    class="w-full h-full object-cover transition-transform duration-100 ease-out"
+    style="transform-origin: 0 0;"
+  />
+  <div id="zoom-hint" class="absolute bottom-3 right-3 bg-[#1A1208]/70 text-[#C4A97D] text-[10px] font-['Inter'] tracking-widest uppercase px-2 py-1 transition-opacity duration-300">
+    Hover to zoom
+  </div>
+</div>
+</div>
+
+<script>
+  const container = document.getElementById('book-zoom');
+  const img = document.getElementById('book-cover-img');
+  const hint = document.getElementById('zoom-hint');
+  const SCALE = 2.5;
+
+  container.addEventListener('mouseenter', () => {
+    img.style.transition = 'transform 0.15s ease-out';
+    hint.style.opacity = '0';
+  });
+
+  container.addEventListener('mouseleave', () => {
+    img.style.transition = 'transform 0.3s ease-out';
+    img.style.transform = 'scale(1) translate(0px, 0px)';
+    hint.style.opacity = '1';
+  });
+
+  container.addEventListener('mousemove', (e) => {
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Calculate what percentage across the image the cursor is
+    const xPercent = x / rect.width;
+    const yPercent = y / rect.height;
+
+    // Translate so the hovered point stays under the cursor
+    const translateX = -xPercent * rect.width * (SCALE - 1);
+    const translateY = -yPercent * rect.height * (SCALE - 1);
+
+    img.style.transform = `scale(${SCALE}) translate(${translateX / SCALE}px, ${translateY / SCALE}px)`;
+  });
+</script>
+  </div>
+</section>
+
+<!-- WITNESS TO HISTORY -->
+<section id="witness" class="w-full bg-[#F5F0E8] py-24">
+  <div class="max-w-[1440px] mx-auto px-20">
+    <p class="font-['Inter'] text-[#8A7E6E] text-sm tracking-[0.15em] uppercase text-center mb-6">The Book</p>
+    <h2 class="font-['Cormorant_Garamond'] text-[#1A1208] text-[44px] font-semibold text-center leading-tight mb-4">{witnessHeadline}</h2>
+    <div class="w-16 h-[2px] bg-[#C4A97D] mx-auto mb-12"></div>
+
+    <!-- IMAGE SLIDER -->
+    <div class="relative w-full h-[420px] overflow-hidden mb-16 group" id="slider">
+      <!-- Slides -->
+      <div id="slides" class="flex h-full transition-transform duration-500 ease-in-out">
+        {(page?.galleryImages?.length > 0 ? page.galleryImages : null)
+          ? page.galleryImages.map((img: any) => (
+              <div class="min-w-full h-full flex-shrink-0">
+                <img src={urlFor(img)} alt="" class="w-full h-full object-cover" />
+              </div>
+            ))
+          : (
+            <div class="min-w-full h-full flex-shrink-0">
+              <img src="/images/rugeshi-landscape.png" alt="The hills of Rugeshi" class="w-full h-full object-cover" />
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Prev / Next arrows -->
+      <button id="prev" class="absolute left-4 top-1/2 -translate-y-1/2 bg-[#1A1208]/60 hover:bg-[#1A1208]/90 text-[#C4A97D] w-11 h-11 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button id="next" class="absolute right-4 top-1/2 -translate-y-1/2 bg-[#1A1208]/60 hover:bg-[#1A1208]/90 text-[#C4A97D] w-11 h-11 flex items-center justify-center transition-all opacity-0 group-hover:opacity-100">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <!-- Dot indicators -->
+      <div id="dots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2"></div>
+    </div>
+
+    <!-- Two column text -->
+    <div class="grid grid-cols-2 gap-16">
+      <div class="space-y-6">
+        <p class="font-['Inter'] text-[#1A1208] text-base leading-[1.9]">{witnessLeft}</p>
+        <p class="font-['Inter'] text-[#1A1208] text-base leading-[1.9]">During the period between April and July 1994, Apollinaire's family endured targeted violence amounting to the acts of Genocide since 1990, largely because the Western Province was home to key architects of the Genocide — civilians as well as high-ranking military officials.</p>
+      </div>
+      <p class="font-['Inter'] text-[#1A1208] text-base leading-[1.9]">{witnessRight}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const slides = document.getElementById('slides');
+  const dotsContainer = document.getElementById('dots');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+
+  if (slides) {
+    const total = slides.children.length;
+    let current = 0;
+
+    // Build dots
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('button');
+      dot.className = `w-2 h-2 rounded-full transition-all ${i === 0 ? 'bg-[#C4A97D] w-4' : 'bg-white/60'}`;
+      dot.addEventListener('click', () => goTo(i));
+      dotsContainer?.appendChild(dot);
+    }
+
+    function updateDots() {
+      dotsContainer?.querySelectorAll('button').forEach((dot, i) => {
+        dot.className = `w-2 h-2 rounded-full transition-all ${i === current ? 'bg-[#C4A97D] w-4' : 'bg-white/60'}`;
+      });
+    }
+
+    function goTo(index: number) {
+      current = (index + total) % total;
+      slides.style.transform = `translateX(-${current * 100}%)`;
+      updateDots();
+    }
+
+    prevBtn?.addEventListener('click', () => goTo(current - 1));
+    nextBtn?.addEventListener('click', () => goTo(current + 1));
+
+    // Auto-advance every 5 seconds
+    setInterval(() => goTo(current + 1), 5000);
+  }
+</script>
+
+  <!-- AUTHOR -->
+<section id="author" class="w-full bg-[#1A1208] py-24">
+  <div class="max-w-[1440px] mx-auto px-20 flex items-start gap-20">
+    <div class="flex-shrink-0 w-[380px] h-[460px] overflow-hidden">
+      <img src={authorPhotoUrl} alt={authorName} class="w-full h-full object-cover" />
+    </div>
+    <div class="pt-6 max-w-[740px]">
+      <p class="font-['Inter'] text-[#8A7E6E] text-sm tracking-[0.15em] uppercase mb-5">The Author</p>
+      <h2 class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-[40px] font-semibold leading-tight mb-8">{authorName}</h2>
+      <div class="font-['Inter'] text-[#D4C9B8] text-base leading-[1.9] space-y-5">
+        {page?.authorBio ? (
+          page.authorBio.map((block: any) => (
+            <p>{block.children?.map((c: any) => c.text).join('')}</p>
+          ))
+        ) : (
+          <>
+            <p>Apollinaire Munyaneza was born and raised in Nyabihu District (formerly Nkuli Commune) in Rwanda's Western Province in a loving and harmonious family.</p>
+            <p>Despite surviving the horrors of genocide, Apollinaire found the strength to rebuild his life with resilience. For him, survival is not just a reminder of how humanity can be lost under bad leadership — it is also a responsibility.</p>
+            <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-xl italic mt-8">"To truly honor those who perished, survivors must strive to live with purpose and rise beyond the ordinary."</p>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- KEY THEMES -->
+<section id="themes" class="w-full bg-[#F5F0E8] py-24">
+  <div class="max-w-[1440px] mx-auto px-20">
+    <p class="font-['Inter'] text-[#8A7E6E] text-sm tracking-[0.15em] uppercase text-center mb-6">What you'll discover</p>
+    <h2 class="font-['Cormorant_Garamond'] text-[#1A1208] text-[44px] font-semibold text-center leading-tight mb-4">Key Themes</h2>
+    <div class="w-16 h-[2px] bg-[#C4A97D] mx-auto mb-16"></div>
+    <div class="grid grid-cols-3 gap-8">
+      {themes.map((theme: any, i: number) => (
+        <div class="bg-[#EDE8DF] p-10">
+          <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-[40px] font-semibold mb-4 leading-none">
+            {String(i + 1).padStart(2, '0')}
+          </p>
+          <h3 class="font-['Cormorant_Garamond'] text-[#1A1208] text-2xl font-semibold italic mb-4">{theme.title}</h3>
+          <p class="font-['Inter'] text-[#8A7E6E] text-sm leading-[1.9]">{theme.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+  <!-- PULL QUOTE -->
+  <!-- PULL QUOTE -->
+<section class="w-full relative h-[500px] flex items-center justify-center overflow-hidden">
+  <!-- Full background landscape, minimal overlay -->
+  <div class="absolute inset-0">
+    <img src="/images/rugeshi-landscape.png" alt="" class="w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-[#1A1208]/30"></div>
+  </div>
+  <!-- Frosted quote card -->
+  <div class="relative z-10 w-full max-w-[860px] mx-auto px-8">
+    <div class="bg-[#1A1208]/80 px-16 py-14 text-center">
+      <!-- Large opening quote mark -->
+      <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-[64px] leading-none mb-2">"</p>
+      <!-- Quote text -->
+      <p class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-[26px] italic leading-[1.7] mb-10">{pullQuote}</p>
+      <!-- Attribution with decorative lines -->
+      <div class="flex items-center justify-center gap-4">
+        <div class="w-12 h-[1px] bg-[#C4A97D]"></div>
+        <p class="font-['Inter'] text-[#C4A97D] text-xs tracking-[0.2em] uppercase">{authorName}</p>
+        <div class="w-12 h-[1px] bg-[#C4A97D]"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- CTA -->
+  <!-- CTA -->
+<section class="w-full bg-[#F5F0E8] py-24">
+  <div class="max-w-[1440px] mx-auto px-20 text-center">
+    <p class="font-['Inter'] text-[#8A7E6E] text-sm tracking-[0.15em] uppercase mb-6">Get Your Copy</p>
+    <h2 class="font-['Cormorant_Garamond'] text-[#1A1208] text-[44px] font-semibold text-center leading-tight mb-6">{ctaHeadline}</h2>
+    <p class="font-['Inter'] text-[#8A7E6E] text-base max-w-[500px] mx-auto leading-[1.9] mb-12">A story that must be told. A history that must never be forgotten.</p>
+    <div class="flex items-center justify-center gap-6">
+      <a href={ctaBuyLink} class="font-['Inter'] bg-[#1A1208] text-[#F5F0E8] text-sm font-semibold px-10 py-4 hover:bg-[#2C2015] transition-colors">Order Now</a>
+      <a href={ctaLearnLink} class="font-['Inter'] border border-[#1A1208] text-[#1A1208] text-sm font-semibold px-10 py-4 hover:bg-[#1A1208] hover:text-[#F5F0E8] transition-colors">Learn More</a>
+    </div>
+  </div>
+</section>
+
+  <!-- FOOTER -->
+  <footer class="w-full bg-[#1A1208] py-16">
+    <div class="max-w-[1440px] mx-auto px-20">
+      <div class="flex items-start justify-between pb-10 border-b border-[#3D3020]">
+        <div>
+          <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-2xl font-semibold mb-2">Rugeshi Hill</p>
+          <p class="font-['Inter'] text-[#8A7E6E] text-sm">Where Humanity Was Buried</p>
+        </div>
+        <div class="flex gap-16">
+          <div>
+            <p class="font-['Inter'] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase mb-4">The Book</p>
+            <div class="space-y-3">
+              <a href="#witness" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">The Story</a>
+              <a href="#themes" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Key Themes</a>
+              <a href={ctaBuyLink} class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Buy Now</a>
+            </div>
+          </div>
+          <div>
+            <p class="font-['Inter'] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase mb-4">The Author</p>
+            <div class="space-y-3">
+              <a href="#author" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">About Apollinaire</a>
+              <a href="mailto:contact@rugeshihill.com" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Contact</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between pt-8">
+        <p class="font-['Inter'] text-[#8A7E6E] text-xs">© 2026 Apollinaire Munyaneza. All rights reserved.</p>
+        <p class="font-['Inter'] text-[#8A7E6E] text-xs">Published by Inzozi Publishers</p>
+      </div>
+    </div>
+  </footer>
+
+</Layout>
