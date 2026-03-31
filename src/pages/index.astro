@@ -281,36 +281,43 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto) : '/images/a
 </section>
 
   <!-- FOOTER -->
-  <footer class="w-full bg-[#1A1208] py-16">
-    <div class="max-w-[1440px] mx-auto px-20">
-      <div class="flex items-start justify-between pb-10 border-b border-[#3D3020]">
-        <div>
-          <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-2xl font-semibold mb-2">Rugeshi Hill</p>
-          <p class="font-['Inter'] text-[#8A7E6E] text-sm">Where Humanity Was Buried</p>
-        </div>
-        <div class="flex gap-16">
-          <div>
-            <p class="font-['Inter'] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase mb-4">The Book</p>
-            <div class="space-y-3">
-              <a href="#witness" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">The Story</a>
-              <a href="#themes" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Key Themes</a>
-              <a href={ctaBuyLink} class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Buy Now</a>
-            </div>
-          </div>
-          <div>
-            <p class="font-['Inter'] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase mb-4">The Author</p>
-            <div class="space-y-3">
-              <a href="#author" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">About Apollinaire</a>
-              <a href="mailto:contact@rugeshihill.com" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Contact</a>
-            </div>
-          </div>
-        </div>
+  <!-- FOOTER -->
+<footer class="w-full bg-[#1A1208] py-16">
+  <div class="max-w-[1440px] mx-auto px-20">
+    <div class="flex items-start justify-between pb-10 border-b border-[#3D3020]">
+      <!-- Left: Logo + tagline + description -->
+      <div class="max-w-[400px]">
+        <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-2xl font-semibold mb-2">Rugeshi Hill</p>
+        <p class="font-['Inter'] text-[#8A7E6E] text-sm mb-6">Where Humanity Was Buried</p>
+        <p class="font-['Inter'] text-[#8A7E6E] text-sm leading-[1.9]">A memoir by Apollinaire Munyaneza that bears witness to one of history's darkest hours, and to the enduring strength of the human spirit.</p>
       </div>
-      <div class="flex items-center justify-between pt-8">
-        <p class="font-['Inter'] text-[#8A7E6E] text-xs">© 2026 Apollinaire Munyaneza. All rights reserved.</p>
-        <p class="font-['Inter'] text-[#8A7E6E] text-xs">Published by Inzozi Publishers</p>
+      <!-- Right: Two link columns -->
+      <div class="flex gap-20">
+        <div>
+          <p class="font-['Inter'] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase mb-6">Navigate</p>
+          <div class="space-y-4">
+            <a href="#witness" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">About the Book</a>
+            <a href="#author" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">The Author</a>
+            <a href="#themes" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Key Themes</a>
+            <a href={ctaBuyLink} class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Order Now</a>
+          </div>
+        </div>
+        <div>
+          <p class="font-['Inter'] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase mb-6">Connect</p>
+          <div class="space-y-4">
+            <a href="mailto:contact@rugeshihill.com" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Contact Author</a>
+            <a href="mailto:press@rugeshihill.com" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Press Inquiries</a>
+            <a href="mailto:speaking@rugeshihill.com" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Speaking Events</a>
+          </div>
+        </div>
       </div>
     </div>
-  </footer>
+    <!-- Copyright bar -->
+    <div class="flex items-center justify-between pt-8">
+      <p class="font-['Inter'] text-[#8A7E6E] text-xs">© 2026 Apollinaire Munyaneza. All rights reserved.</p>
+      <p class="font-['Inter'] text-[#8A7E6E] text-xs">Published by Inzozi Publishers</p>
+    </div>
+  </div>
+</footer>
 
 </Layout>
