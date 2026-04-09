@@ -21,8 +21,8 @@ const themes = page?.themes || [
   { title: 'Resilience & Purpose', description: 'How a survivor found the strength to rebuild his life, honouring those who perished by living with purpose and rising beyond the ordinary.' },
 ]
 
-const bookCoverUrl = page?.bookCover ? urlFor(page.bookCover) : '/images/book-cover.png'
-const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto) : '/images/author-photo.png'
+const bookCoverUrl = page?.bookCover ? urlFor(page.bookCover).url() : '/images/book-cover.png'
+const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/images/author-photo.png'
 ---
 
 <Layout title={bookTitle}>
@@ -85,7 +85,7 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto) : '/images/a
           {(page?.galleryImages?.length > 0 ? page.galleryImages : null)
             ? page.galleryImages.map((img: any) => (
                 <div class="min-w-full h-full flex-shrink-0">
-                  <img src={urlFor(img)} alt="" class="w-full h-full object-cover" />
+                  <img src={urlFor(img).url()} alt="" class="w-full h-full object-cover" />
                 </div>
               ))
             : (
