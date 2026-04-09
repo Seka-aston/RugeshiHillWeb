@@ -1,0 +1,218 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { getBookPage, getGalleryPhotos, urlFor } from '../lib/sanity'
+
+const page = await getBookPage()
+const sanityPhotos = await getGalleryPhotos()
+
+const ctaBuyLink = page?.ctaBuyLink || '#'
+
+const fallbackPhotos = [
+  { title: 'Morning Mist Over Rugeshi', category: 'Landscape', image: null },
+  { title: 'The Gathering Place', category: 'People', image: null },
+  { title: 'Paths of Remembrance', category: 'Memorial', image: null },
+  { title: 'Resilience in Bloom', category: 'Landscape', image: null },
+  { title: 'The Hill at Sunset', category: 'Landscape', image: null },
+  { title: 'Voices of the Elders', category: 'People', image: null },
+  { title: 'Where Stories Live', category: 'Historical', image: null },
+  { title: 'A New Dawn', category: 'Landscape', image: null },
+]
+
+const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallbackPhotos
+---
+
+<Layout title="The Gallery — Rugeshi Hill">
+
+  <!-- NAV -->
+  <nav class="w-full bg-[#1A1208] px-6 md:px-20 py-5 flex items-center justify-between fixed top-0 z-50">
+    <a href="/" class="font-['Cormorant_Garamond'] text-[#C4A97D] text-lg md:text-xl font-semibold tracking-wide">Rugeshi Hill</a>
+    <!-- Desktop nav -->
+    <div class="hidden md:flex items-center gap-10">
+      <a href="/#witness" class="font-['Inter'] text-[#F5F0E8] text-sm tracking-wide hover:text-[#C4A97D] transition-colors">About</a>
+      <a href="/#author" class="font-['Inter'] text-[#F5F0E8] text-sm tracking-wide hover:text-[#C4A97D] transition-colors">Author</a>
+      <a href="/gallery" class="font-['Inter'] text-[#C4A97D] text-sm tracking-wide">Gallery</a>
+      <a href="/#themes" class="font-['Inter'] text-[#F5F0E8] text-sm tracking-wide hover:text-[#C4A97D] transition-colors">The Book</a>
+      <a href={ctaBuyLink} class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-6 py-2.5 tracking-wide hover:bg-[#8B7355] hover:text-white transition-colors">Order Now</a>
+    </div>
+    <!-- Mobile: only CTA -->
+    <a href={ctaBuyLink} class="md:hidden font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-4 py-2 hover:bg-[#8B7355] transition-colors">Order Now</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="w-full h-[420px] md:h-[500px] pt-[72px] relative overflow-hidden flex items-center justify-center">
+    <div class="absolute inset-0">
+      <img src="/images/rugeshi-landscape.png" alt="" class="w-full h-full object-cover object-center" />
+      <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(26,18,8,0.9) 0%, rgba(26,18,8,0.8) 40%, rgba(26,18,8,0.53) 70%, rgba(26,18,8,0.33) 100%);"></div>
+    </div>
+    <div class="relative z-10 flex flex-col items-center text-center px-6 gap-6">
+      <p class="font-['Inter'] text-[#8B7355] text-xs font-medium tracking-[0.25em] uppercase">Visual Journey</p>
+      <h1 class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-[44px] md:text-[56px] font-semibold italic leading-none">The Gallery</h1>
+      <div class="w-15 h-[2px] bg-[#C4A97D] w-16"></div>
+      <p class="font-['Inter'] text-[#8A7E6E] text-base md:text-lg font-light leading-relaxed max-w-[600px]">
+        Photographs capturing the landscape, the people, and the enduring spirit of Rugeshi Hill.
+      </p>
+    </div>
+  </section>
+
+  <!-- PHOTO GRID -->
+  <section class="w-full bg-[#F5F0E8] py-16 md:py-24">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+
+      <!-- Section header -->
+      <div class="flex flex-col items-center text-center mb-12 md:mb-14 gap-4">
+        <p class="font-['Inter'] text-[#8B7355] text-xs font-medium tracking-[0.25em] uppercase">Explore the Collection</p>
+        <h2 class="font-['Cormorant_Garamond'] text-[#1A1208] text-[32px] md:text-[42px] font-semibold italic leading-tight">Photographs &amp; Memories</h2>
+        <div class="w-16 h-[2px] bg-[#C4A97D]"></div>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="flex flex-wrap items-center justify-center gap-3 mb-10 md:mb-12" id="filter-tabs">
+        <button data-filter="all" class="filter-btn active font-['Inter'] text-xs font-semibold tracking-wide px-7 py-2.5 transition-all bg-[#1A1208] text-[#C4A97D]">All</button>
+        <button data-filter="Landscape" class="filter-btn font-['Inter'] text-xs font-medium tracking-wide px-7 py-2.5 transition-all border border-[#D4C9B8] text-[#8B7355] bg-transparent">Landscape</button>
+        <button data-filter="People" class="filter-btn font-['Inter'] text-xs font-medium tracking-wide px-7 py-2.5 transition-all border border-[#D4C9B8] text-[#8B7355] bg-transparent">People</button>
+        <button data-filter="Memorial" class="filter-btn font-['Inter'] text-xs font-medium tracking-wide px-7 py-2.5 transition-all border border-[#D4C9B8] text-[#8B7355] bg-transparent">Memorial</button>
+        <button data-filter="Historical" class="filter-btn font-['Inter'] text-xs font-medium tracking-wide px-7 py-2.5 transition-all border border-[#D4C9B8] text-[#8B7355] bg-transparent">Historical</button>
+      </div>
+
+      <!-- Masonry grid -->
+      <div class="columns-1 sm:columns-2 lg:columns-3 gap-4" id="photo-grid">
+        {photos.map((photo: any, i: number) => {
+          const imgUrl = photo.image ? urlFor(photo.image).url() : '/images/rugeshi-landscape.png'
+          const heights = ['h-[340px]', 'h-[420px]', 'h-[380px]', 'h-[300px]', 'h-[460px]', 'h-[360px]', 'h-[400px]', 'h-[320px]']
+          const h = heights[i % heights.length]
+          return (
+            <div class="break-inside-avoid mb-4 relative overflow-hidden rounded-sm group cursor-pointer photo-item" data-category={photo.category}>
+              <div class={`w-full ${h} relative`}>
+                <img
+                  src={imgUrl}
+                  alt={photo.title || ''}
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#1A1208]/85 via-[#1A1208]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                  {photo.title && (
+                    <p class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-lg italic leading-snug">{photo.title}</p>
+                  )}
+                  {photo.category && (
+                    <p class="font-['Inter'] text-[#C4A97D] text-[11px] font-medium tracking-[0.15em] uppercase mt-1">{photo.category}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      <!-- Empty state -->
+      <p id="no-results" class="hidden text-center font-['Inter'] text-[#8A7E6E] text-sm py-16">No photos in this category yet.</p>
+
+    </div>
+  </section>
+
+  <!-- PULL QUOTE -->
+  <section class="w-full relative min-h-[400px] md:h-[500px] flex items-center justify-center overflow-hidden py-16 md:py-0">
+    <div class="absolute inset-0">
+      <img src="/images/rugeshi-landscape.png" alt="" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-[#1A1208]/80"></div>
+    </div>
+    <div class="relative z-10 w-full max-w-[860px] mx-auto px-6 md:px-8">
+      <div class="bg-[#1A1208]/80 px-8 md:px-16 py-10 md:py-14 text-center">
+        <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-[48px] md:text-[64px] leading-none mb-2">"</p>
+        <p class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-[20px] md:text-[26px] italic leading-[1.7] mb-8 md:mb-10">
+          Every photograph holds a memory. Every memory holds a truth. These images are fragments of a story the world must never forget.
+        </p>
+        <div class="flex items-center justify-center gap-4">
+          <div class="w-8 md:w-12 h-[1px] bg-[#C4A97D]"></div>
+          <p class="font-['Inter'] text-[#C4A97D] text-xs tracking-[0.2em] uppercase">Apollinaire Munyaneza</p>
+          <div class="w-8 md:w-12 h-[1px] bg-[#C4A97D]"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="w-full bg-[#F5F0E8] py-16 md:py-24">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-20 text-center">
+      <p class="font-['Inter'] text-[#8B7355] text-xs font-medium tracking-[0.25em] uppercase mb-6">Continue the Journey</p>
+      <h2 class="font-['Cormorant_Garamond'] text-[#1A1208] text-[32px] md:text-[42px] font-semibold italic text-center leading-tight mb-4">Read the Full Story</h2>
+      <div class="w-16 h-[2px] bg-[#C4A97D] mx-auto mb-8"></div>
+      <p class="font-['Inter'] text-[#6B6054] text-base font-light max-w-[600px] mx-auto leading-[1.8] mb-10 md:mb-12">
+        These photographs are only part of the story. Discover the complete memoir of survival, truth, and resilience.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5">
+        <a href={ctaBuyLink} class="w-full sm:w-auto font-['Inter'] bg-[#1A1208] text-[#C4A97D] text-sm font-semibold px-10 py-4 tracking-wide hover:bg-[#2C2015] transition-colors text-center">Order Now</a>
+        <a href="/" class="w-full sm:w-auto font-['Inter'] border border-[#8B7355] text-[#8B7355] text-sm font-medium px-10 py-4 tracking-wide hover:bg-[#8B7355] hover:text-white transition-colors text-center">Back to Home</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="w-full bg-[#1A1208] py-16">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-20">
+      <div class="flex flex-col md:flex-row items-start justify-between pb-10 border-b border-[#3D3020] gap-10 md:gap-0">
+        <div class="max-w-full md:max-w-[400px]">
+          <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-2xl font-semibold mb-2">Rugeshi Hill</p>
+          <p class="font-['Inter'] text-[#8A7E6E] text-sm mb-6">Where Humanity Was Buried</p>
+          <p class="font-['Inter'] text-[#6B6054] text-sm leading-[1.9]">A memoir by Apollinaire Munyaneza about loss, truth, and the resilience of the human spirit.</p>
+        </div>
+        <div class="flex gap-12 md:gap-20">
+          <div>
+            <p class="font-['Inter'] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase mb-6">Navigate</p>
+            <div class="space-y-4">
+              <a href="/#witness" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">About the Book</a>
+              <a href="/#author" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">The Author</a>
+              <a href="/#themes" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Key Themes</a>
+              <a href={ctaBuyLink} class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Order Now</a>
+            </div>
+          </div>
+          <div>
+            <p class="font-['Inter'] text-[#F5F0E8] text-xs font-semibold tracking-widest uppercase mb-6">Connect</p>
+            <div class="space-y-4">
+              <a href="mailto:contact@rugeshihill.com" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Contact Author</a>
+              <a href="mailto:press@rugeshihill.com" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Press Inquiries</a>
+              <a href="mailto:speaking@rugeshihill.com" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Speaking Events</a>
+              <a href="/gallery" class="block font-['Inter'] text-[#C4A97D] text-sm hover:text-[#8B7355] transition-colors">View our Gallery</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-8 gap-2">
+        <p class="font-['Inter'] text-[#8A7E6E] text-xs">© 2026 Apollinaire Munyaneza. All rights reserved.</p>
+        <p class="font-['Inter'] text-[#8A7E6E] text-xs">Published by Inzozi Publishers</p>
+      </div>
+    </div>
+  </footer>
+
+</Layout>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.filter-btn')
+  const items = document.querySelectorAll<HTMLElement>('.photo-item')
+  const noResults = document.getElementById('no-results')
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const filter = tab.dataset.filter || 'all'
+
+      // Update active tab styles
+      tabs.forEach(t => {
+        t.classList.remove('bg-[#1A1208]', 'text-[#C4A97D]')
+        t.classList.add('border', 'border-[#D4C9B8]', 'text-[#8B7355]', 'bg-transparent')
+      })
+      tab.classList.remove('border', 'border-[#D4C9B8]', 'text-[#8B7355]', 'bg-transparent')
+      tab.classList.add('bg-[#1A1208]', 'text-[#C4A97D]')
+
+      // Show/hide items
+      let visible = 0
+      items.forEach(item => {
+        const category = item.dataset.category || ''
+        const show = filter === 'all' || category === filter
+        item.style.display = show ? 'block' : 'none'
+        if (show) visible++
+      })
+
+      if (noResults) {
+        noResults.classList.toggle('hidden', visible > 0)
+      }
+    })
+  })
+</script>

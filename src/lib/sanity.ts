@@ -25,3 +25,13 @@ export async function getBookPage() {
     return null
   }
 }
+
+export async function getGalleryPhotos() {
+  try {
+    return await client.fetch(
+      `*[_type == "bookPage"][0].galleryPhotos[]{ image, title, category }`
+    )
+  } catch (e) {
+    return null
+  }
+}
