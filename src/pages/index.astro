@@ -84,35 +84,39 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
       <!-- Two-column layout: slider + text -->
       <div class="flex flex-col md:flex-row md:items-start gap-0 md:gap-12">
 
-        <!-- LEFT: Side slider -->
-        <div class="relative w-full md:w-[480px] flex-shrink-0 h-[280px] md:h-[560px] overflow-hidden" id="witness-slider">
-          <div id="witness-slides" class="flex h-full transition-transform duration-500 ease-in-out">
-            {(page?.galleryImages?.length > 0 ? page.galleryImages : null)
-              ? page.galleryImages.map((img: any) => (
-                  <div class="min-w-full h-full flex-shrink-0 relative">
-                    <img src={urlFor(img).url()} alt="" class="w-full h-full object-cover" />
-                    <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-[#1A1208]/80 to-transparent px-5 pb-9 pt-10">
-                      {img?.title && <p class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-lg italic leading-snug">{img.title}</p>}
-                      {img?.category && <p class="font-['Inter'] text-[#C4A97D] text-[11px] font-medium tracking-[0.15em] uppercase mt-1">{img.category}</p>}
+        <!-- LEFT: Side slider + caption -->
+        <div class="w-full md:w-[480px] flex-shrink-0">
+          <div class="relative h-[280px] md:h-[560px] overflow-hidden" id="witness-slider">
+            <div id="witness-slides" class="flex h-full transition-transform duration-500 ease-in-out">
+              {(page?.galleryImages?.length > 0 ? page.galleryImages : null)
+                ? page.galleryImages.map((img: any) => (
+                    <div class="min-w-full h-full flex-shrink-0 relative" data-caption={img?.caption || ''}>
+                      <img src={urlFor(img.image ?? img).url()} alt="" class="w-full h-full object-cover" />
+                      <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-[#1A1208]/80 to-transparent px-5 pb-9 pt-10">
+                        {img?.title && <p class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-lg italic leading-snug">{img.title}</p>}
+                        {img?.category && <p class="font-['Inter'] text-[#C4A97D] text-[11px] font-medium tracking-[0.15em] uppercase mt-1">{img.category}</p>}
+                      </div>
                     </div>
+                  ))
+                : (
+                  <div class="min-w-full h-full flex-shrink-0 relative">
+                    <img src="/images/rugeshi-landscape.png" alt="The hills of Rugeshi" class="w-full h-full object-cover" />
+                    <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-[#1A1208]/60 to-transparent px-5 pb-9 pt-10"></div>
                   </div>
-                ))
-              : (
-                <div class="min-w-full h-full flex-shrink-0 relative">
-                  <img src="/images/rugeshi-landscape.png" alt="The hills of Rugeshi" class="w-full h-full object-cover" />
-                  <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-[#1A1208]/60 to-transparent px-5 pb-9 pt-10"></div>
-                </div>
-              )
-            }
+                )
+              }
+            </div>
+            <!-- Always-visible arrows -->
+            <button id="witness-prev" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-[#1A1208]/70 hover:bg-[#1A1208] text-[#C4A97D] w-10 h-10 flex items-center justify-center transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button id="witness-next" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-[#1A1208]/70 hover:bg-[#1A1208] text-[#C4A97D] w-10 h-10 flex items-center justify-center transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </button>
+            <div id="witness-dots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-20"></div>
           </div>
-          <!-- Always-visible arrows -->
-          <button id="witness-prev" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-[#1A1208]/70 hover:bg-[#1A1208] text-[#C4A97D] w-10 h-10 flex items-center justify-center transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-          </button>
-          <button id="witness-next" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-[#1A1208]/70 hover:bg-[#1A1208] text-[#C4A97D] w-10 h-10 flex items-center justify-center transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-          </button>
-          <div id="witness-dots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-20"></div>
+          <!-- Caption — outside overflow-hidden, updates with slider -->
+          <p id="witness-caption" class="font-['Inter'] text-[#8A7E6E] text-sm italic text-center mt-3 min-h-[20px]"></p>
         </div>
 
         <!-- RIGHT: Text column -->
@@ -282,6 +286,7 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
   const witnessDotsContainer = document.getElementById('witness-dots');
   const witnessPrev = document.getElementById('witness-prev');
   const witnessNext = document.getElementById('witness-next');
+  const witnessCaption = document.getElementById('witness-caption');
 
   if (witnessSlides) {
     const total = witnessSlides.children.length;
@@ -304,6 +309,10 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
       current = (index + total) % total;
       witnessSlides.style.transform = `translateX(-${current * 100}%)`;
       updateDots();
+      if (witnessCaption) {
+        const slide = witnessSlides.children[current] as HTMLElement;
+        witnessCaption.textContent = slide?.dataset.caption || '';
+      }
     }
 
     witnessPrev?.addEventListener('click', () => goTo(current - 1));

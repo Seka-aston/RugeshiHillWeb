@@ -28,7 +28,20 @@ export default defineType({
       name: 'galleryImages',
       title: 'Witness Section — Slideshow Photos',
       type: 'array',
-      of: [{ type: 'image', options: { hotspot: true } }],
+      of: [{
+        type: 'object',
+        fields: [
+          { name: 'image', title: 'Photo', type: 'image', options: { hotspot: true } },
+          { name: 'title', title: 'Photo Title', type: 'string' },
+          { name: 'category', title: 'Category', type: 'string' },
+          {
+            name: 'caption',
+            title: 'Photo Caption',
+            type: 'text',
+            description: 'A short sentence describing what this photo shows, who is in it, or when it was taken',
+          },
+        ],
+      }],
       description: 'Photos for the rotating slideshow in the Witness section',
     }),
 
