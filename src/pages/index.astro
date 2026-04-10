@@ -130,9 +130,6 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
   <!-- AUTHOR -->
   <section id="author" class="w-full bg-[#1A1208] py-16 md:py-24">
     <div class="max-w-[1440px] mx-auto px-6 md:px-20 flex flex-col md:flex-row items-start gap-10 md:gap-20">
-      <div class="flex-shrink-0 w-full md:w-[380px] h-[300px] md:h-[460px] overflow-hidden">
-        <img src={authorPhotoUrl} alt={authorName} class="w-full h-full object-cover object-top" />
-      </div>
       <div class="pt-0 md:pt-6 max-w-full md:max-w-[740px]">
         <p class="font-['Inter'] text-[#8A7E6E] text-sm tracking-[0.15em] uppercase mb-5">The Author</p>
         <h2 class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-[32px] md:text-[40px] font-semibold leading-tight mb-8">{authorName}</h2>
@@ -145,10 +142,17 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
             <>
               <p>Apollinaire Munyaneza was born and raised in Nyabihu District (formerly Nkuli Commune) in Rwanda's Western Province in a loving and harmonious family.</p>
               <p>Despite surviving the horrors of genocide, Apollinaire found the strength to rebuild his life with resilience. For him, survival is not just a reminder of how humanity can be lost under bad leadership — it is also a responsibility.</p>
-              <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-xl italic mt-8">"To truly honor those who perished, survivors must strive to live with purpose and rise beyond the ordinary."</p>
             </>
           )}
         </div>
+        <div class="border-l-2 border-[#C4A97D] pl-6 mt-8">
+          <p class="font-['Cormorant_Garamond'] text-[#C4A97D] text-xl italic leading-relaxed">
+            "{page?.authorQuote || 'To truly honor those who perished, survivors must strive to live with purpose and rise beyond the ordinary.'}"
+          </p>
+        </div>
+      </div>
+      <div class="flex-shrink-0 w-full md:w-[380px] h-[300px] md:h-[460px] overflow-hidden order-first md:order-none">
+        <img src={authorPhotoUrl} alt={authorName} class="w-full h-full object-cover object-top" />
       </div>
     </div>
   </section>
