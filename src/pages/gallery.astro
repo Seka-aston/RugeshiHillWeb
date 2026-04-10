@@ -8,14 +8,14 @@ const sanityPhotos = await getGalleryPhotos()
 const ctaBuyLink = page?.ctaBuyLink || '#'
 
 const fallbackPhotos = [
-  { title: 'Morning Mist Over Rugeshi', category: 'Landscape', image: null },
-  { title: 'The Gathering Place', category: 'People', image: null },
-  { title: 'Paths of Remembrance', category: 'Memorial', image: null },
-  { title: 'Resilience in Bloom', category: 'Landscape', image: null },
-  { title: 'The Hill at Sunset', category: 'Landscape', image: null },
-  { title: 'Voices of the Elders', category: 'People', image: null },
-  { title: 'Where Stories Live', category: 'Historical', image: null },
-  { title: 'A New Dawn', category: 'Landscape', image: null },
+  { title: 'Morning Mist Over Rugeshi', category: 'Landscape', image: null, caption: '' },
+  { title: 'The Gathering Place', category: 'People', image: null, caption: '' },
+  { title: 'Paths of Remembrance', category: 'Memorial', image: null, caption: '' },
+  { title: 'Resilience in Bloom', category: 'Landscape', image: null, caption: '' },
+  { title: 'The Hill at Sunset', category: 'Landscape', image: null, caption: '' },
+  { title: 'Voices of the Elders', category: 'People', image: null, caption: '' },
+  { title: 'Where Stories Live', category: 'Historical', image: null, caption: '' },
+  { title: 'A New Dawn', category: 'Landscape', image: null, caption: '' },
 ]
 
 const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallbackPhotos
@@ -47,7 +47,7 @@ const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallba
     <div class="relative z-10 flex flex-col items-center text-center px-6 gap-6">
       <p class="font-['Inter'] text-[#8B7355] text-xs font-medium tracking-[0.25em] uppercase">Visual Journey</p>
       <h1 class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-[44px] md:text-[56px] font-semibold italic leading-none">The Gallery</h1>
-      <div class="w-15 h-[2px] bg-[#C4A97D] w-16"></div>
+      <div class="w-16 h-[2px] bg-[#C4A97D]"></div>
       <p class="font-['Inter'] text-[#8A7E6E] text-base md:text-lg font-light leading-relaxed max-w-[600px]">
         Photographs capturing the landscape, the people, and the enduring spirit of Rugeshi Hill.
       </p>
@@ -74,28 +74,31 @@ const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallba
         <button data-filter="Historical" class="filter-btn font-['Inter'] text-xs font-medium tracking-wide px-7 py-2.5 transition-all border border-[#D4C9B8] text-[#8B7355] bg-transparent">Historical</button>
       </div>
 
-      <!-- Masonry grid -->
+      <!-- Masonry grid — natural aspect ratios, no fixed height -->
       <div class="columns-1 sm:columns-2 lg:columns-3 gap-4" id="photo-grid">
         {photos.map((photo: any, i: number) => {
           const imgUrl = photo.image ? urlFor(photo.image).url() : '/images/rugeshi-landscape.png'
-          const heights = ['h-[340px]', 'h-[420px]', 'h-[380px]', 'h-[300px]', 'h-[460px]', 'h-[360px]', 'h-[400px]', 'h-[320px]']
-          const h = heights[i % heights.length]
           return (
-            <div class="break-inside-avoid mb-4 relative overflow-hidden rounded-sm group cursor-pointer photo-item" data-category={photo.category}>
-              <div class={`w-full ${h} relative`}>
-                <img
-                  src={imgUrl}
-                  alt={photo.title || ''}
-                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div class="absolute inset-0 bg-gradient-to-t from-[#1A1208]/85 via-[#1A1208]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                  {photo.title && (
-                    <p class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-lg italic leading-snug">{photo.title}</p>
-                  )}
-                  {photo.category && (
-                    <p class="font-['Inter'] text-[#C4A97D] text-[11px] font-medium tracking-[0.15em] uppercase mt-1">{photo.category}</p>
-                  )}
-                </div>
+            <div
+              class="break-inside-avoid mb-4 relative overflow-hidden rounded-sm group cursor-pointer photo-item bg-[#1A1208]"
+              data-category={photo.category}
+              data-index={i}
+              data-title={photo.title || ''}
+              data-caption={photo.caption || ''}
+              data-src={imgUrl}
+            >
+              <img
+                src={imgUrl}
+                alt={photo.title || ''}
+                class="w-full h-auto object-contain block transition-transform duration-500 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#1A1208]/85 via-[#1A1208]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                {photo.title && (
+                  <p class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-lg italic leading-snug">{photo.title}</p>
+                )}
+                {photo.category && (
+                  <p class="font-['Inter'] text-[#C4A97D] text-[11px] font-medium tracking-[0.15em] uppercase mt-1">{photo.category}</p>
+                )}
               </div>
             </div>
           )
@@ -182,18 +185,75 @@ const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallba
     </div>
   </footer>
 
+  <!-- LIGHTBOX MODAL -->
+  <div
+    id="lightbox"
+    class="fixed inset-0 z-[100] flex items-center justify-center px-4 md:px-8 hidden"
+    aria-modal="true"
+    role="dialog"
+  >
+    <!-- Backdrop -->
+    <div id="lightbox-backdrop" class="absolute inset-0 bg-[#1A1208]/90"></div>
+
+    <!-- Modal content -->
+    <div
+      id="lightbox-inner"
+      class="relative z-10 w-full max-w-[800px] flex flex-col items-center transition-all duration-300 opacity-0 scale-95"
+    >
+      <!-- Close button -->
+      <button
+        id="lightbox-close"
+        class="absolute -top-10 right-0 font-['Inter'] text-[#C4A97D] text-2xl leading-none hover:text-white transition-colors"
+        aria-label="Close"
+      >✕</button>
+
+      <!-- Prev / Next arrows -->
+      <button
+        id="lightbox-prev"
+        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 md:-translate-x-14 bg-[#1A1208]/70 hover:bg-[#1A1208] text-[#C4A97D] w-10 h-10 flex items-center justify-center transition-colors"
+        aria-label="Previous photo"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button
+        id="lightbox-next"
+        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 md:translate-x-14 bg-[#1A1208]/70 hover:bg-[#1A1208] text-[#C4A97D] w-10 h-10 flex items-center justify-center transition-colors"
+        aria-label="Next photo"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <!-- Image -->
+      <img
+        id="lightbox-img"
+        src=""
+        alt=""
+        class="w-full max-h-[75vh] object-contain block"
+      />
+
+      <!-- Caption area -->
+      <div class="w-full pt-4 pb-1 text-center space-y-1">
+        <p id="lightbox-title" class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-xl italic leading-snug"></p>
+        <p id="lightbox-caption" class="font-['Inter'] text-[#8A7E6E] text-sm leading-relaxed"></p>
+      </div>
+    </div>
+  </div>
+
 </Layout>
 
 <script>
+  // ── Filter tabs ─────────────────────────────────────────────────────────
   const tabs = document.querySelectorAll<HTMLButtonElement>('.filter-btn')
   const items = document.querySelectorAll<HTMLElement>('.photo-item')
   const noResults = document.getElementById('no-results')
+
+  // Build the ordered list of visible photo items (for lightbox navigation)
+  let visibleItems: HTMLElement[] = Array.from(items)
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       const filter = tab.dataset.filter || 'all'
 
-      // Update active tab styles
       tabs.forEach(t => {
         t.classList.remove('bg-[#1A1208]', 'text-[#C4A97D]')
         t.classList.add('border', 'border-[#D4C9B8]', 'text-[#8B7355]', 'bg-transparent')
@@ -201,18 +261,89 @@ const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallba
       tab.classList.remove('border', 'border-[#D4C9B8]', 'text-[#8B7355]', 'bg-transparent')
       tab.classList.add('bg-[#1A1208]', 'text-[#C4A97D]')
 
-      // Show/hide items
       let visible = 0
+      visibleItems = []
       items.forEach(item => {
         const category = item.dataset.category || ''
         const show = filter === 'all' || category === filter
         item.style.display = show ? 'block' : 'none'
-        if (show) visible++
+        if (show) { visible++; visibleItems.push(item) }
       })
 
-      if (noResults) {
-        noResults.classList.toggle('hidden', visible > 0)
-      }
+      if (noResults) noResults.classList.toggle('hidden', visible > 0)
     })
+  })
+
+  // ── Lightbox ─────────────────────────────────────────────────────────────
+  const lightbox     = document.getElementById('lightbox')!
+  const lightboxInner = document.getElementById('lightbox-inner')!
+  const backdrop     = document.getElementById('lightbox-backdrop')!
+  const closeBtn     = document.getElementById('lightbox-close')!
+  const prevBtn      = document.getElementById('lightbox-prev')!
+  const nextBtn      = document.getElementById('lightbox-next')!
+  const lbImg        = document.getElementById('lightbox-img') as HTMLImageElement
+  const lbTitle      = document.getElementById('lightbox-title')!
+  const lbCaption    = document.getElementById('lightbox-caption')!
+
+  let currentLbIndex = 0
+
+  function openLightbox(index: number) {
+    currentLbIndex = index
+    updateLightbox()
+    lightbox.classList.remove('hidden')
+    document.body.style.overflow = 'hidden'
+    // Trigger animation next frame
+    requestAnimationFrame(() => {
+      lightboxInner.classList.remove('opacity-0', 'scale-95')
+      lightboxInner.classList.add('opacity-100', 'scale-100')
+    })
+  }
+
+  function closeLightbox() {
+    lightboxInner.classList.remove('opacity-100', 'scale-100')
+    lightboxInner.classList.add('opacity-0', 'scale-95')
+    setTimeout(() => {
+      lightbox.classList.add('hidden')
+      document.body.style.overflow = ''
+    }, 200)
+  }
+
+  function updateLightbox() {
+    const item = visibleItems[currentLbIndex]
+    if (!item) return
+    lbImg.src = item.dataset.src || ''
+    lbImg.alt = item.dataset.title || ''
+    lbTitle.textContent = item.dataset.title || ''
+    lbCaption.textContent = item.dataset.caption || ''
+  }
+
+  function prevPhoto() {
+    currentLbIndex = (currentLbIndex - 1 + visibleItems.length) % visibleItems.length
+    updateLightbox()
+  }
+
+  function nextPhoto() {
+    currentLbIndex = (currentLbIndex + 1) % visibleItems.length
+    updateLightbox()
+  }
+
+  // Open on card click
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const idx = visibleItems.indexOf(item)
+      if (idx !== -1) openLightbox(idx)
+    })
+  })
+
+  closeBtn.addEventListener('click', closeLightbox)
+  backdrop.addEventListener('click', closeLightbox)
+  prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevPhoto() })
+  nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextPhoto() })
+
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.classList.contains('hidden')) return
+    if (e.key === 'Escape') closeLightbox()
+    if (e.key === 'ArrowLeft') prevPhoto()
+    if (e.key === 'ArrowRight') nextPhoto()
   })
 </script>
