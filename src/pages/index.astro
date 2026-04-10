@@ -38,8 +38,28 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
       <a href="#themes" class="font-['Inter'] text-[#F5F0E8] text-sm tracking-wide hover:text-[#C4A97D] transition-colors">The Book</a>
       <a href={ctaBuyLink} class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-6 py-2.5 tracking-wide hover:bg-[#8B7355] hover:text-white transition-colors">Order Now</a>
     </div>
-    <!-- Mobile: just the CTA button -->
-    <a href={ctaBuyLink} class="md:hidden font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-4 py-2 hover:bg-[#8B7355] transition-colors">Get the Book</a>
+    <!-- Mobile: hamburger + CTA -->
+    <div class="md:hidden flex items-center gap-3">
+      <button id="hamburger-btn" class="text-[#F5F0E8] p-1 flex items-center justify-center" aria-label="Toggle menu" aria-expanded="false">
+        <svg id="hamburger-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="hidden">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+      <a href={ctaBuyLink} class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-4 py-2 hover:bg-[#8B7355] transition-colors">Get the Book</a>
+    </div>
+    <!-- Mobile dropdown menu -->
+    <div id="mobile-menu" class="md:hidden absolute left-0 right-0 top-full bg-[#1A1208] overflow-hidden max-h-0 transition-[max-height] duration-300 ease-in-out">
+      <div class="flex flex-col px-6 pb-6">
+        <a href="#witness" class="mobile-nav-link font-['Inter'] text-[#F5F0E8] text-base py-4 tracking-wide hover:text-[#C4A97D] transition-colors border-b border-[#3D3020]">About</a>
+        <a href="#author" class="mobile-nav-link font-['Inter'] text-[#F5F0E8] text-base py-4 tracking-wide hover:text-[#C4A97D] transition-colors border-b border-[#3D3020]">Author</a>
+        <a href="/gallery" class="mobile-nav-link font-['Inter'] text-[#F5F0E8] text-base py-4 tracking-wide hover:text-[#C4A97D] transition-colors border-b border-[#3D3020]">Gallery</a>
+        <a href="#themes" class="mobile-nav-link font-['Inter'] text-[#F5F0E8] text-base py-4 tracking-wide hover:text-[#C4A97D] transition-colors border-b border-[#3D3020]">The Book</a>
+        <a href={ctaBuyLink} class="mobile-nav-link font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-sm font-semibold w-full py-3 text-center mt-5 hover:bg-[#8B7355] transition-colors block">Order Now</a>
+      </div>
+    </div>
   </nav>
 
   <!-- HERO -->
@@ -253,6 +273,36 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
 </Layout>
 
 <script>
+  // Hamburger menu
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu') as HTMLElement;
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  function openMobileMenu() {
+    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+    hamburgerIcon?.classList.add('hidden');
+    closeIcon?.classList.remove('hidden');
+    hamburgerBtn?.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMobileMenu() {
+    mobileMenu.style.maxHeight = '0px';
+    hamburgerIcon?.classList.remove('hidden');
+    closeIcon?.classList.add('hidden');
+    hamburgerBtn?.setAttribute('aria-expanded', 'false');
+  }
+
+  hamburgerBtn?.addEventListener('click', () => {
+    const isOpen = mobileMenu.style.maxHeight !== '0px' && mobileMenu.style.maxHeight !== '';
+    if (isOpen) closeMobileMenu();
+    else openMobileMenu();
+  });
+
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
   // Book zoom
   const container = document.getElementById('book-zoom');
   const img = document.getElementById('book-cover-img') as HTMLImageElement;
