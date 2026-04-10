@@ -106,12 +106,12 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
 
         <!-- LEFT: Side slider + caption -->
         <div class="w-full md:w-[480px] flex-shrink-0">
-          <div class="relative h-[280px] md:h-[560px] overflow-hidden" id="witness-slider">
-            <div id="witness-slides" class="flex h-full transition-transform duration-500 ease-in-out">
+          <div class="relative h-auto md:h-[560px] overflow-hidden" id="witness-slider">
+            <div id="witness-slides" class="flex h-auto md:h-full transition-transform duration-500 ease-in-out">
               {(page?.galleryImages?.length > 0 ? page.galleryImages : null)
                 ? page.galleryImages.map((img: any) => (
-                    <div class="min-w-full h-full flex-shrink-0 relative" data-caption={img?.caption || ''}>
-                      <img src={urlFor(img.image ?? img).url()} alt="" class="w-full h-full object-cover" />
+                    <div class="min-w-full h-auto md:h-full flex-shrink-0 relative bg-[#1A1208]" data-caption={img?.caption || ''}>
+                      <img src={urlFor(img.image ?? img).url()} alt="" class="w-full h-auto md:h-full object-contain md:object-cover" />
                       <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-[#1A1208]/80 to-transparent px-5 pb-9 pt-10">
                         {img?.title && <p class="font-['Cormorant_Garamond'] text-[#F5F0E8] text-lg italic leading-snug">{img.title}</p>}
                         {img?.category && <p class="font-['Inter'] text-[#C4A97D] text-[11px] font-medium tracking-[0.15em] uppercase mt-1">{img.category}</p>}
@@ -119,8 +119,8 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
                     </div>
                   ))
                 : (
-                  <div class="min-w-full h-full flex-shrink-0 relative">
-                    <img src="/images/rugeshi-landscape.png" alt="The hills of Rugeshi" class="w-full h-full object-cover" />
+                  <div class="min-w-full h-auto md:h-full flex-shrink-0 relative bg-[#1A1208]">
+                    <img src="/images/rugeshi-landscape.png" alt="The hills of Rugeshi" class="w-full h-auto md:h-full object-contain md:object-cover" />
                     <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-[#1A1208]/60 to-transparent px-5 pb-9 pt-10"></div>
                   </div>
                 )
