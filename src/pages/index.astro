@@ -82,7 +82,7 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
       <div class="w-16 h-[2px] bg-[#C4A97D] mx-auto mb-10 md:mb-12"></div>
 
       <!-- Two-column layout: slider + text -->
-      <div class="flex flex-col md:flex-row md:items-stretch gap-0 md:gap-12">
+      <div class="flex flex-col md:flex-row md:items-start gap-0 md:gap-12">
 
         <!-- LEFT: Side slider -->
         <div class="relative w-full md:w-[480px] flex-shrink-0 h-[280px] md:h-auto md:min-h-[480px] overflow-hidden" id="witness-slider">
@@ -116,10 +116,10 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
         </div>
 
         <!-- RIGHT: Text column -->
-        <div class="flex-1 flex flex-col justify-center gap-6 pt-8 md:pt-0">
+        <div class="flex-1 flex flex-col justify-start gap-6 pt-8 md:pt-0">
           <p class="font-['Inter'] text-[#1A1208] text-base leading-[1.9]">{witnessLeft}</p>
-          <p class="font-['Inter'] text-[#1A1208] text-base leading-[1.9]">During the period between April and July 1994, Apollinaire's family endured targeted violence amounting to the acts of Genocide since 1990, largely because the Western Province was home to key architects of the Genocide — civilians as well as high-ranking military officials.</p>
           <p class="font-['Inter'] text-[#1A1208] text-base leading-[1.9]">{witnessRight}</p>
+          <p class="font-['Inter'] text-[#1A1208] text-base leading-[1.9]">During the period between April and July 1994, Apollinaire's family endured targeted violence amounting to the acts of Genocide since 1990, largely because the Western Province was home to key architects of the Genocide — civilians as well as high-ranking military officials.</p>
           <p class="font-['Inter'] text-[#1A1208] text-base leading-[1.9]">Today, the hills of Rugeshi stand as silent witnesses to what transpired. For Apollinaire, writing this memoir was not only an act of personal reckoning — it was a moral imperative. The world must know. The truth must endure.</p>
         </div>
 
