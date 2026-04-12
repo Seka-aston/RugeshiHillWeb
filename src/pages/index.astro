@@ -78,16 +78,16 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
       </div>
       <div
         id="book-zoom"
-        class="flex-shrink-0 w-[240px] h-[320px] md:w-[500px] md:h-[400px] shadow-2xl relative cursor-zoom-in overflow-hidden"
+        class="flex-shrink-0 w-[180px] h-[260px] md:w-[500px] md:h-[400px] shadow-2xl relative md:cursor-zoom-in overflow-hidden mx-auto md:mx-0"
       >
         <img
           id="book-cover-img"
           src={bookCoverUrl}
           alt={bookTitle}
-          class="w-full h-full object-cover transition-transform duration-100 ease-out"
+          class="w-full h-full object-cover object-center transition-transform duration-100 ease-out"
           style="transform-origin: 0 0;"
         />
-        <div id="zoom-hint" class="absolute bottom-3 right-3 bg-[#1A1208]/70 text-[#C4A97D] text-[10px] font-['Inter'] tracking-widest uppercase px-2 py-1 transition-opacity duration-300">
+        <div id="zoom-hint" class="hidden md:block absolute bottom-3 right-3 bg-[#1A1208]/70 text-[#C4A97D] text-[10px] font-['Inter'] tracking-widest uppercase px-2 py-1 transition-opacity duration-300">
           Hover to zoom
         </div>
       </div>
@@ -311,15 +311,18 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
 
   if (container && img) {
     container.addEventListener('mouseenter', () => {
+      if (window.innerWidth < 768) return;
       img.style.transition = 'transform 0.15s ease-out';
       if (hint) hint.style.opacity = '0';
     });
     container.addEventListener('mouseleave', () => {
+      if (window.innerWidth < 768) return;
       img.style.transition = 'transform 0.3s ease-out';
       img.style.transform = 'scale(1) translate(0px, 0px)';
       if (hint) hint.style.opacity = '1';
     });
     container.addEventListener('mousemove', (e) => {
+      if (window.innerWidth < 768) return;
       const rect = container.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
