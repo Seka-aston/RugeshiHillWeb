@@ -80,7 +80,7 @@ export default defineType({
 
     // ── Call to Action ────────────────────────────────────────────────────
     defineField({ name: 'ctaHeadline', title: 'CTA Headline', type: 'string' }),
-    defineField({ name: 'ctaBuyLink', title: 'Order Now — Link URL', type: 'url' }),
+    defineField({ name: 'ctaBuyLink', title: 'Order Now — Link URL', type: 'url', description: 'e.g. https://share.google/irH1prZwH6lfuotZc' }),
     defineField({ name: 'ctaLearnLink', title: 'Learn More — Link URL', type: 'url' }),
 
     // ── Gallery Page ──────────────────────────────────────────────────────

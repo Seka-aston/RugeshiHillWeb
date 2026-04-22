@@ -5,7 +5,7 @@ import { getBookPage, getGalleryPhotos, urlFor } from '../lib/sanity'
 const page = await getBookPage()
 const sanityPhotos = await getGalleryPhotos()
 
-const ctaBuyLink = page?.ctaBuyLink || '#'
+const ctaBuyLink = page?.ctaBuyLink || 'https://share.google/irH1prZwH6lfuotZc'
 
 const fallbackPhotos = [
   { title: 'Morning Mist Over Rugeshi', category: 'Landscape', image: null, caption: '' },
