@@ -1,11 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import { getBookPage, getGalleryPhotos, urlFor } from '../lib/sanity'
+import { getGalleryPhotos, urlFor } from '../lib/sanity'
 
-const page = await getBookPage()
 const sanityPhotos = await getGalleryPhotos()
-
-const ctaBuyLink = page?.ctaBuyLink || 'https://share.google/irH1prZwH6lfuotZc'
 
 const fallbackPhotos = [
   { title: 'Morning Mist Over Rugeshi', category: 'Landscape', image: null, caption: '' },
@@ -32,7 +29,7 @@ const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallba
       <a href="/#author" class="font-['Inter'] text-[#F5F0E8] text-sm tracking-wide hover:text-[#C4A97D] transition-colors">Author</a>
       <a href="/gallery" class="font-['Inter'] text-[#C4A97D] text-sm tracking-wide">Gallery</a>
       <a href="/#themes" class="font-['Inter'] text-[#F5F0E8] text-sm tracking-wide hover:text-[#C4A97D] transition-colors">The Book</a>
-      <a href={ctaBuyLink} class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-6 py-2.5 tracking-wide hover:bg-[#8B7355] hover:text-white transition-colors">Order Now</a>
+      <button data-order-trigger class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-6 py-2.5 tracking-wide hover:bg-[#8B7355] hover:text-white transition-colors cursor-pointer">Order Now</button>
     </div>
     <!-- Mobile: hamburger + CTA -->
     <div class="md:hidden flex items-center gap-3">
@@ -44,7 +41,7 @@ const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallba
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
-      <a href={ctaBuyLink} class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-4 py-2 hover:bg-[#8B7355] transition-colors">Get the Book</a>
+      <button data-order-trigger class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-4 py-2 hover:bg-[#8B7355] transition-colors cursor-pointer">Get the Book</button>
     </div>
     <!-- Mobile dropdown menu -->
     <div id="mobile-menu" class="md:hidden absolute left-0 right-0 top-full bg-[#1A1208] overflow-hidden max-h-0 transition-[max-height] duration-300 ease-in-out">
@@ -53,7 +50,7 @@ const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallba
         <a href="/#author" class="mobile-nav-link font-['Inter'] text-[#F5F0E8] text-base py-4 tracking-wide hover:text-[#C4A97D] transition-colors border-b border-[#3D3020]">Author</a>
         <a href="/gallery" class="mobile-nav-link font-['Inter'] text-[#C4A97D] text-base py-4 tracking-wide border-b border-[#3D3020]">Gallery</a>
         <a href="/#themes" class="mobile-nav-link font-['Inter'] text-[#F5F0E8] text-base py-4 tracking-wide hover:text-[#C4A97D] transition-colors border-b border-[#3D3020]">The Book</a>
-        <a href={ctaBuyLink} class="mobile-nav-link font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-sm font-semibold w-full py-3 text-center mt-5 hover:bg-[#8B7355] transition-colors block">Order Now</a>
+        <button data-order-trigger class="mobile-nav-link font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-sm font-semibold w-full py-3 text-center mt-5 hover:bg-[#8B7355] transition-colors block cursor-pointer">Order Now</button>
       </div>
     </div>
   </nav>
@@ -162,7 +159,7 @@ const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallba
         These photographs are only part of the story. Discover the complete memoir of survival, truth, and resilience.
       </p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5">
-        <a href={ctaBuyLink} class="w-full sm:w-auto font-['Inter'] bg-[#1A1208] text-[#C4A97D] text-sm font-semibold px-10 py-4 tracking-wide hover:bg-[#2C2015] transition-colors text-center">Order Now</a>
+        <button data-order-trigger class="w-full sm:w-auto font-['Inter'] bg-[#1A1208] text-[#C4A97D] text-sm font-semibold px-10 py-4 tracking-wide hover:bg-[#2C2015] transition-colors text-center cursor-pointer">Order Now</button>
         <a href="/" class="w-full sm:w-auto font-['Inter'] border border-[#8B7355] text-[#8B7355] text-sm font-medium px-10 py-4 tracking-wide hover:bg-[#8B7355] hover:text-white transition-colors text-center">Back to Home</a>
       </div>
     </div>
@@ -184,7 +181,7 @@ const photos = (sanityPhotos && sanityPhotos.length > 0) ? sanityPhotos : fallba
               <a href="/#witness" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">About the Book</a>
               <a href="/#author" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">The Author</a>
               <a href="/#themes" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Key Themes</a>
-              <a href={ctaBuyLink} class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Order Now</a>
+              <button data-order-trigger class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors cursor-pointer text-left">Order Now</button>
             </div>
           </div>
           <div>

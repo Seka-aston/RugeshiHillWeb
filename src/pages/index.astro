@@ -13,7 +13,6 @@ const witnessLeft = page?.witnessTextLeft || 'On the hills of Rugeshi, amid the 
 const witnessRight = page?.witnessTextRight || 'This memoir is not only a record of atrocity. It is a testament to the resilience of memory, the duty of witness, and the long, unfinished work of healing that follows catastrophe.'
 const pullQuote = page?.pullQuote || 'The hill did not forget. Neither could I. To speak is not to wound again — it is to refuse that the dead were never there.'
 const ctaHeadline = page?.ctaHeadline || 'Read This Important Memoir'
-const ctaBuyLink = page?.ctaBuyLink || 'https://share.google/irH1prZwH6lfuotZc'
 const ctaLearnLink = page?.ctaLearnLink || '#'
 const themes = page?.themes || [
   { title: 'Loss & Memory', description: 'The devastating impact of the Genocide on one family — both parents, a brother, five sisters, and hundreds of extended family members on Rugeshi Hill.' },
@@ -36,7 +35,7 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
       <a href="#author" class="font-['Inter'] text-[#F5F0E8] text-sm tracking-wide hover:text-[#C4A97D] transition-colors">Author</a>
       <a href="/gallery" class="font-['Inter'] text-[#F5F0E8] text-sm tracking-wide hover:text-[#C4A97D] transition-colors">Gallery</a>
       <a href="#themes" class="font-['Inter'] text-[#F5F0E8] text-sm tracking-wide hover:text-[#C4A97D] transition-colors">The Book</a>
-      <a href={ctaBuyLink} class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-6 py-2.5 tracking-wide hover:bg-[#8B7355] hover:text-white transition-colors">Order Now</a>
+      <button data-order-trigger class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-6 py-2.5 tracking-wide hover:bg-[#8B7355] hover:text-white transition-colors cursor-pointer">Order Now</button>
     </div>
     <!-- Mobile: hamburger + CTA -->
     <div class="md:hidden flex items-center gap-3">
@@ -48,7 +47,7 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
-      <a href={ctaBuyLink} class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-4 py-2 hover:bg-[#8B7355] transition-colors">Get the Book</a>
+      <button data-order-trigger class="font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-xs font-semibold px-4 py-2 hover:bg-[#8B7355] transition-colors cursor-pointer">Get the Book</button>
     </div>
     <!-- Mobile dropdown menu -->
     <div id="mobile-menu" class="md:hidden absolute left-0 right-0 top-full bg-[#1A1208] overflow-hidden max-h-0 transition-[max-height] duration-300 ease-in-out">
@@ -57,7 +56,7 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
         <a href="#author" class="mobile-nav-link font-['Inter'] text-[#F5F0E8] text-base py-4 tracking-wide hover:text-[#C4A97D] transition-colors border-b border-[#3D3020]">Author</a>
         <a href="/gallery" class="mobile-nav-link font-['Inter'] text-[#F5F0E8] text-base py-4 tracking-wide hover:text-[#C4A97D] transition-colors border-b border-[#3D3020]">Gallery</a>
         <a href="#themes" class="mobile-nav-link font-['Inter'] text-[#F5F0E8] text-base py-4 tracking-wide hover:text-[#C4A97D] transition-colors border-b border-[#3D3020]">The Book</a>
-        <a href={ctaBuyLink} class="mobile-nav-link font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-sm font-semibold w-full py-3 text-center mt-5 hover:bg-[#8B7355] transition-colors block">Order Now</a>
+        <button data-order-trigger class="mobile-nav-link font-['Inter'] bg-[#C4A97D] text-[#1A1208] text-sm font-semibold w-full py-3 text-center mt-5 hover:bg-[#8B7355] transition-colors block cursor-pointer">Order Now</button>
       </div>
     </div>
   </nav>
@@ -227,7 +226,7 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
       <h2 class="font-['Cormorant_Garamond'] text-[#1A1208] text-[32px] md:text-[44px] font-semibold text-center leading-tight mb-6">{ctaHeadline}</h2>
       <p class="font-['Inter'] text-[#8A7E6E] text-base max-w-[500px] mx-auto leading-[1.9] mb-10 md:mb-12">A story that must be told. A history that must never be forgotten.</p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
-        <a href={ctaBuyLink} class="w-full sm:w-auto font-['Inter'] bg-[#1A1208] text-[#F5F0E8] text-sm font-semibold px-10 py-4 hover:bg-[#2C2015] transition-colors text-center">Order Now</a>
+        <button data-order-trigger class="w-full sm:w-auto font-['Inter'] bg-[#1A1208] text-[#F5F0E8] text-sm font-semibold px-10 py-4 hover:bg-[#2C2015] transition-colors text-center cursor-pointer">Order Now</button>
         <a href={ctaLearnLink} class="w-full sm:w-auto font-['Inter'] border border-[#1A1208] text-[#1A1208] text-sm font-semibold px-10 py-4 hover:bg-[#1A1208] hover:text-[#F5F0E8] transition-colors text-center">Learn More</a>
       </div>
     </div>
@@ -249,7 +248,7 @@ const authorPhotoUrl = page?.authorPhoto ? urlFor(page.authorPhoto).url() : '/im
               <a href="#witness" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">About the Book</a>
               <a href="#author" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">The Author</a>
               <a href="#themes" class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Key Themes</a>
-              <a href={ctaBuyLink} class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors">Order Now</a>
+              <button data-order-trigger class="block font-['Inter'] text-[#8A7E6E] text-sm hover:text-[#C4A97D] transition-colors cursor-pointer text-left">Order Now</button>
             </div>
           </div>
           <div>
